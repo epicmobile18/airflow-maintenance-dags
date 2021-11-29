@@ -4,7 +4,7 @@ A maintenance workflow that you can deploy into Airflow to periodically clean ou
 airflow trigger_dag airflow-clear-missing-dags
 
 """
-from airflow.models import DAG, DagModel
+from airflow.models import DAG, DagModel, Variable
 from airflow.operators.python_operator import PythonOperator
 from airflow import settings
 from datetime import timedelta
@@ -23,7 +23,8 @@ SCHEDULE_INTERVAL = "@daily"
 # Who is listed as the owner of this DAG in the Airflow Web Server
 DAG_OWNER_NAME = "operations"
 # List of email address to send email alerts to if this job fails
-ALERT_EMAIL_ADDRESSES = []
+# ALERT_EMAIL_ADDRESSES = []
+ALERT_EMAIL_ADDRESSES = Variable.get(key="email_for_report", deserialize_json=True)
 # Whether the job should delete the logs or not. Included if you want to
 # temporarily avoid deleting the logs
 ENABLE_DELETE = True

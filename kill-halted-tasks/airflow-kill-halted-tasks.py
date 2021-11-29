@@ -10,7 +10,7 @@ the task is complete.
 airflow trigger_dag airflow-kill-halted-tasks
 
 """
-from airflow.models import DAG, DagModel, DagRun, TaskInstance
+from airflow.models import DAG, DagModel, DagRun, TaskInstance, Variable
 from airflow import settings
 from airflow.operators.python_operator \
     import PythonOperator, ShortCircuitOperator
@@ -32,14 +32,17 @@ SCHEDULE_INTERVAL = "@hourly"
 # Who is listed as the owner of this DAG in the Airflow Web Server
 DAG_OWNER_NAME = "operations"
 # List of email address to send email alerts to if this job fails
-ALERT_EMAIL_ADDRESSES = []
+# ALERT_EMAIL_ADDRESSES = []
+ALERT_EMAIL_ADDRESSES = Variable.get(key="email_for_report", deserialize_json=True)
 # Whether to send out an email whenever a process was killed during a DAG Run
 # or not
 SEND_PROCESS_KILLED_EMAIL = True
 # Subject of the email that is sent out when a task is killed by the DAG
 PROCESS_KILLED_EMAIL_SUBJECT = DAG_ID + " - Tasks were Killed"
 # List of email address to send emails to when a task is killed by the DAG
-PROCESS_KILLED_EMAIL_ADDRESSES = []
+# PROCESS_KILLED_EMAIL_ADDRESSES = []
+PROCESS_KILLED_EMAIL_ADDRESSES = Variable.get(key="email_for_report", deserialize_json=True)
+
 # Whether the job should delete the db entries or not. Included if you want to
 # temporarily avoid deleting the db entries.
 ENABLE_KILL = True

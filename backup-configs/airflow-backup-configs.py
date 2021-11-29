@@ -21,7 +21,8 @@ START_DATE = airflow.utils.dates.days_ago(1)
 SCHEDULE_INTERVAL = "@daily"
 # List of email address to send email alerts to if this job fails
 DAG_OWNER_NAME = "operations"
-ALERT_EMAIL_ADDRESSES = []
+# ALERT_EMAIL_ADDRESSES = []
+ALERT_EMAIL_ADDRESSES = Variable.get(key="email_for_report", deserialize_json=True)
 # Format options: https://www.tutorialspoint.com/python/time_strftime.htm
 BACKUP_FOLDER_DATE_FORMAT = "%Y%m%d%H%M%S"
 BACKUP_HOME_DIRECTORY = Variable.get("airflow_backup_config__backup_home_directory", "/tmp/airflow_backups")
